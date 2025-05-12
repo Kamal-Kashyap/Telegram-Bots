@@ -1,3 +1,8 @@
+import os
+os.system("pip install nest_asyncio")
+import nest_asyncio
+nest_asyncio.apply()
+
 import asyncio
 import re
 from telegram import Update, ChatPermissions
@@ -15,7 +20,7 @@ PROMO_KEYWORDS = [
     "super offer", "shop now", "deal of the day", "hurry up", "exclusive deal", "best price", "limited stock"
 ]
 
-# Check if user is admin
+# Check if user is admin                                                                                                                                              
 async def is_admin(update: Update) -> bool:
     user_id = update.effective_user.id
     chat_id = update.effective_chat.id
@@ -55,7 +60,7 @@ async def moderate_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             warned_users[user.id] = {"violations": 1}
             warn_msg = await context.bot.send_message(chat_id, text=f"⚠️ @{user.username or user.first_name}, promotion is not allowed. One more and you'll be removed.")
             await asyncio.sleep(5)
-            await warn_msg.delete()
+            await warn_msg.delete()        
         else:
             warned_users[user.id]["violations"] += 1
             if warned_users[user.id]["violations"] >= 2:
